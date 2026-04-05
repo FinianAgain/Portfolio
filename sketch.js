@@ -32,6 +32,11 @@ function mouseClicked() {
   test.update(set_point);
 }
 
+function touchMoved() {
+  let set_point = createVector(touch.x, touch.y);
+  test.update(set_point);
+}
+
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
