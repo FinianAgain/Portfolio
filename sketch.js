@@ -27,7 +27,7 @@ function draw() {
   test.linear_interp();
 }
 
-function mouseClicked() {
+function mousePressed() {
   let set_point = createVector(mouseX, mouseY);
   test.update(set_point);
 }
@@ -38,7 +38,7 @@ function touchStarted() {
     set_point = createVector(touch.x, touch.y);
   }
   test.update(set_point);
-}
+} 
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
