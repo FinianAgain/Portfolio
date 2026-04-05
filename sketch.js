@@ -32,8 +32,11 @@ function mouseClicked() {
   test.update(set_point);
 }
 
-function touchMoved() {
-  let set_point = createVector(touch.x, touch.y);
+function touchStarted() {
+  let set_point;
+  for (let touch of touches) {
+    set_point = createVector(touch.x, touch.y);
+  }
   test.update(set_point);
 }
 
