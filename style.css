@@ -62,3 +62,20 @@ li::marker {
 canvas {
   display: block;
 }
+
+.button-link {
+  background-color: blue;
+  color: white;
+  border: 2px solid white;
+  border-radius: 10px;
+  font-family: "calling-code", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  width: 50%;
+  font-size: 1.2em;
+  padding: 1%;
+  margin-bottom: 1%;
+  text-decoration: none;
+  display: inline-block;
+}
+

@@ -23,7 +23,7 @@ class Linkage {
   
     G(angles) {  // Find current error
       let f_k = this.f(angles);
-      let penalty_fac = 0.9;
+      let penalty_fac = 15;
       let error = penalty_fac * euc_dist(angles, this._prevSolution);
       return this._target.dist(f_k) + error;
     }
@@ -44,8 +44,8 @@ class Linkage {
     gradDescent() {
       let phi;
       let phi_prev = [...this._prevSolution];
-      let a = 0.007;
-      let iterLimit = 1000;
+      let a = 0.0098;
+      let iterLimit = 2000;
       let step_size = 0.0001;
       let gradLimit = 0.01;
       let rot_min = 0.5;
@@ -60,12 +60,10 @@ class Linkage {
           if (phi[i] < rot_min && i == 0) {phi[i] = rot_min;}
         }
         if (arr_mag(grad) <= gradLimit) {
-          console.log("Breaking")
           break;
         }
         phi_prev = phi;
       }
-      console.log("iter lim")
       return phi;
   
     }
@@ -110,7 +108,7 @@ class Linkage {
         strokeWeight(3);
         rotate(constrain_rot(this._pos[i]));
         
-        let rect_wid = this._lengths[i]/4;
+        let rect_wid = this._lengths[i]/5;
         rect(-rect_wid/2, 0, rect_wid, this._lengths[i], this._lengths[i]/20);
         stroke(0, 100, 100);
         if (i == this._lengths.length-1) {
@@ -150,5 +148,5 @@ class Linkage {
   }
 
   function constrain_rot(angle) {
-    return (angle + PI) % (2 * PI) - PI;
+    return ((angle + PI) % (2 * PI)) - PI;
   }

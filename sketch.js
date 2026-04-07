@@ -14,11 +14,11 @@ function setup() {
   let links = [];
   let start_angles = [];
   for (let i=1; i <= num_links; i++) {
-    links.push(width / (i * 3.5));
+    links.push((width + 400 * i) / (i * 4));
     start_angles.push(0);
   }
     test = new Linkage(
-      createVector(width, height/2), 
+      createVector((width), height/2), 
       links, 
       start_angles); 
 }
