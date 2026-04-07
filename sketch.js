@@ -14,7 +14,7 @@ function setup() {
   let links = [];
   let start_angles = [];
   for (let i=1; i <= num_links; i++) {
-    links.push(width / (i * 3));
+    links.push(width / (i * 3.5));
     start_angles.push(0);
   }
     test = new Linkage(
@@ -35,11 +35,9 @@ function mousePressed() {
 }
 
 function touchStarted() {
-  let set_point;
   for (let touch of touches) {
     set_point = createVector(touch.x, touch.y);
   }
-  test.update(set_point);
 } 
 
 function windowResized() {

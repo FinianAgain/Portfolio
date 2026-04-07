@@ -1,8 +1,9 @@
 
 class Linkage {
     constructor(origin, lengths, startAngles) {
-      this._origin = origin;
       this._lengths = lengths;
+      this._base = this._lengths[0]/1.5;
+      this._origin = origin;
       this._solution = startAngles;
       this._prevSolution = [...startAngles];
       this._target = createVector(0, 0);
@@ -11,7 +12,7 @@ class Linkage {
     }
   
     f(angles) {  // Find end position using forward kinematics
-      let x = this._origin.x;
+      let x = this._origin.x - 0.5 * this._base;
       let y = this._origin.y;
       for (let i=0; i < this._lengths.length; i++) {
         x += -1 * this._lengths[i] * sin(angles[i]);
@@ -22,7 +23,7 @@ class Linkage {
   
     G(angles) {  // Find current error
       let f_k = this.f(angles);
-      let penalty_fac = 1;
+      let penalty_fac = 0.9;
       let error = penalty_fac * euc_dist(angles, this._prevSolution);
       return this._target.dist(f_k) + error;
     }
@@ -43,7 +44,7 @@ class Linkage {
     gradDescent() {
       let phi;
       let phi_prev = [...this._prevSolution];
-      let a = 0.005;
+      let a = 0.007;
       let iterLimit = 1000;
       let step_size = 0.0001;
       let gradLimit = 0.01;
@@ -55,7 +56,8 @@ class Linkage {
         let grad = this.grad(phi_prev, step_size);
         for (let i=0; i < phi.length; i++) {
           phi[i] -= a * exp(-0.2 * k) * grad[i];
-          phi[i] = constrain_rot(phi[i])
+          if (phi[i] > rot_max && i == 0) {phi[i] = rot_max;}
+          if (phi[i] < rot_min && i == 0) {phi[i] = rot_min;}
         }
         if (arr_mag(grad) <= gradLimit) {
           console.log("Breaking")
@@ -97,28 +99,35 @@ class Linkage {
     render() {
     colorMode("hsb")
       push();
-      translate(this._origin.x, this._origin.y);
+      translate(this._origin.x - 0.5 * (this._lengths[0]/1.5), this._origin.y);
+      stroke(360);
+      fill(48, 80, 100);
+      strokeWeight(3);
+      //translate(0.5 * (-this._lengths[0]/1.5), 0);
   
       for (let i=0; i<this._lengths.length; i++) {
-        rotate(this._pos[i]);
-        strokeWeight(3);
-        stroke(0, 80, 100);
-        noFill()
-        //fill(0, 80, 100);
-        line(0, 0, 0, this._lengths[i]);
-        circle(0, 0, this._lengths[i]/12)
         stroke(360);
+        strokeWeight(3);
+        rotate(constrain_rot(this._pos[i]));
+        
         let rect_wid = this._lengths[i]/4;
         rect(-rect_wid/2, 0, rect_wid, this._lengths[i], this._lengths[i]/20);
-        stroke(48, 80, 100);
+        stroke(0, 100, 100);
         if (i == this._lengths.length-1) {
-          strokeWeight(4);
-          line(0, this._lengths[i], 0, this._lengths[i]+20);
-          line(0, this._lengths[i], -20, this._lengths[i]);
+          strokeWeight(5);
+          line(0, this._lengths[i], 0, this._lengths[i]+30);
+          line(0, this._lengths[i], -30, this._lengths[i]);
         }
         translate(0, this._lengths[i]);
-        rotate(-1 * this._pos[i]);
+        rotate(-1 * constrain_rot(this._pos[i]));
       }
+      pop();
+      push();
+      stroke(360);
+      fill(48, 80, 100);
+      strokeWeight(3);
+      translate(this._origin.x, this._origin.y);
+      circle(0, 0, this._lengths[0]/1.5)
       pop();
     }
   }
