@@ -1,3 +1,5 @@
+let set_point;
+
 function setup() {
   frameRate(60);
   colorMode('HSB');
@@ -8,7 +10,7 @@ function setup() {
   cnv.style('left', '0');
 
 
-  let num_links = 5;
+  let num_links = 4;
   let links = [];
   let start_angles = [];
   for (let i=1; i <= num_links; i++) {
@@ -24,12 +26,12 @@ function setup() {
 function draw() {
   clear();
   test.render();
+  test.update(set_point);
   test.linear_interp();
 }
 
 function mousePressed() {
-  let set_point = createVector(mouseX, mouseY);
-  test.update(set_point);
+  set_point = createVector(mouseX, mouseY);
 }
 
 function touchStarted() {

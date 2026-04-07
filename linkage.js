@@ -22,7 +22,9 @@ class Linkage {
   
     G(angles) {  // Find current error
       let f_k = this.f(angles);
-      return this._target.dist(f_k);
+      let penalty_fac = 1;
+      let error = penalty_fac * euc_dist(angles, this._prevSolution);
+      return this._target.dist(f_k) + error;
     }
   
     grad(angles, step_size) {  // approx. gradient using center diff
@@ -41,24 +43,27 @@ class Linkage {
     gradDescent() {
       let phi;
       let phi_prev = [...this._prevSolution];
-      let a = 0.01;
-      let iterLimit = 120;
+      let a = 0.005;
+      let iterLimit = 1000;
       let step_size = 0.0001;
       let gradLimit = 0.01;
-      let rot_min = 1;
-      let rot_max = 2;
+      let rot_min = 0.5;
+      let rot_max = 2.6;
   
       for (let k=0; k < iterLimit; k++) {
         phi = [...phi_prev];
-        let grad = this.grad(phi_prev, step_size)
+        let grad = this.grad(phi_prev, step_size);
         for (let i=0; i < phi.length; i++) {
           phi[i] -= a * exp(-0.2 * k) * grad[i];
-          if (phi[i] > rot_max+i) {phi[i] = rot_max;}
-          if (phi[i] < rot_min-i) {phi[i] = rot_min;}
+          phi[i] = constrain_rot(phi[i])
         }
-        if (arr_mag(grad) <= gradLimit) {break;}
+        if (arr_mag(grad) <= gradLimit) {
+          console.log("Breaking")
+          break;
+        }
         phi_prev = phi;
       }
+      console.log("iter lim")
       return phi;
   
     }
@@ -73,10 +78,10 @@ class Linkage {
     }
 
     linear_interp() {
-        let zeta = 0.7;
-        let w_n = 20;
-        let gain = 1000;
-        let dt = 0.001;
+        let zeta = 0.75;
+        let w_n = 2;
+        let gain = -0.1;
+        let dt = 1/60;
         let k_1 = zeta / (PI * w_n);
         let k_2 = 1 / ((2 * PI * w_n) ** 2);
         let k_3 = (gain * zeta) / (2 * PI * w_n);
@@ -86,8 +91,6 @@ class Linkage {
             this._pos[i] += dt * this._vel[i];
             this._vel[i] += dt * (this._solution[i] + k_3 * vel_in - this._pos[i] - k_1 * this._vel[i]) / k_2;
             }
-        console.log(this._pos);
-        
         }
 
   
@@ -109,12 +112,12 @@ class Linkage {
         rect(-rect_wid/2, 0, rect_wid, this._lengths[i], this._lengths[i]/20);
         stroke(48, 80, 100);
         if (i == this._lengths.length-1) {
-        strokeWeight(4);
-        line(0, this._lengths[i], 0, this._lengths[i]+20);
-        line(0, this._lengths[i], -20, this._lengths[i]);
+          strokeWeight(4);
+          line(0, this._lengths[i], 0, this._lengths[i]+20);
+          line(0, this._lengths[i], -20, this._lengths[i]);
         }
         translate(0, this._lengths[i]);
-        rotate(-1 * this._solution[i]);
+        rotate(-1 * this._pos[i]);
       }
       pop();
     }
@@ -127,4 +130,16 @@ class Linkage {
       cnt += array[i]**2;
     }
     return sqrt(cnt);
+  }
+
+  function euc_dist(arr_1, arr_2) {
+    let dist = 0;
+    for (let i=0; i<arr_1.length; i++) {
+      dist += (arr_1[i] - arr_2[i])**2;
+    }
+    return dist;
+  }
+
+  function constrain_rot(angle) {
+    return (angle + PI) % (2 * PI) - PI;
   }
