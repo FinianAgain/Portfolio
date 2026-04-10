@@ -64,7 +64,6 @@ canvas {
 }
 
 .button-link {
-  background-color: blue;
   color: white;
   border: 2px solid white;
   border-radius: 10px;
@@ -77,5 +76,14 @@ canvas {
   margin-bottom: 1%;
   text-decoration: none;
   display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.button-link:hover {
+  transform: scale(1.03);
+}
+
+.p5-button {
+  margin:  0 var(--page_margin) auto;
 }
 

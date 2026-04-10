@@ -78,9 +78,9 @@ class Linkage {
     }
 
     linear_interp() {
-        let zeta = 0.75;
-        let w_n = 2;
-        let gain = -0.1;
+        let zeta = 0.7;
+        let w_n = 3;
+        let gain = -0.5;
         let dt = 1/60;
         let k_1 = zeta / (PI * w_n);
         let k_2 = 1 / ((2 * PI * w_n) ** 2);
@@ -99,20 +99,20 @@ class Linkage {
       push();
       translate(this._origin.x - 0.5 * (this._lengths[0]/1.5), this._origin.y);
       stroke(360);
-      fill(48, 80, 100);
-      strokeWeight(3);
+      fill(5, 80, 85);
+      strokeWeight(5);
       //translate(0.5 * (-this._lengths[0]/1.5), 0);
   
       for (let i=0; i<this._lengths.length; i++) {
         stroke(360);
-        strokeWeight(3);
+        strokeWeight(5);
         rotate(constrain_rot(this._pos[i]));
         
         let rect_wid = this._lengths[i]/5;
         rect(-rect_wid/2, 0, rect_wid, this._lengths[i], this._lengths[i]/20);
-        stroke(0, 100, 100);
+        stroke(48, 80, 100);
         if (i == this._lengths.length-1) {
-          strokeWeight(5);
+          strokeWeight(7);
           line(0, this._lengths[i], 0, this._lengths[i]+30);
           line(0, this._lengths[i], -30, this._lengths[i]);
         }
@@ -122,8 +122,8 @@ class Linkage {
       pop();
       push();
       stroke(360);
-      fill(48, 80, 100);
-      strokeWeight(3);
+      fill(5, 80, 85);
+      strokeWeight(5);
       translate(this._origin.x, this._origin.y);
       circle(0, 0, this._lengths[0]/1.5)
       pop();
