@@ -23,7 +23,7 @@ function setup() {
       links, 
       start_angles); 
 
-  let ik_button = createA("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "n-DOF Inverse Kinematics - COMING SOON", '_blank');
+  let ik_button = createA("Inverse Kinematics O'Neal 1.1.pdf", "n-DOF Inverse Kinematics", '_blank');
   ik_button.parent('p5-button');
   ik_button.class('button-link');
   ik_button.position(0, 0, 'relative');
