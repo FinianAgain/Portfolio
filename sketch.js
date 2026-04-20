@@ -35,7 +35,7 @@ function setup() {
   ac_button.position(0, 0, 'relative');
   ac_button.mouseOver(() => set_point = createVector(mouseX, mouseY));
 
-  let FEM_button = createA("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "Finite Element Analysis - COMING SOON", '_blank');
+  let FEM_button = createA("", "Finite Element Analysis - COMING SOON", '_blank');
   FEM_button.parent('p5-button');
   FEM_button.class('button-link');
   FEM_button.position(0, 0, 'relative');
