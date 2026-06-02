@@ -23,7 +23,7 @@ function setup() {
       links, 
       start_angles); 
 
-  let ik_button = createA("Inverse Kinematics 1.1.4.pdf", "n-DOF Inverse Kinematics", '_blank');
+  let ik_button = createA("Inverse Kinematics 1.1.4.pdf", "Inverse Kinematics for Robot Arm Simulation", '_blank');
   ik_button.parent('p5-button');
   ik_button.class('button-link');
   ik_button.position(0, 0, 'relative');
