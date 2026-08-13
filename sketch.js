@@ -29,7 +29,7 @@ function setup() {
   ik_button.position(0, 0, 'relative');
   ik_button.mouseOver(() => set_point = createVector(mouseX, mouseY));
   
-  let ac_button = createA("gimbal.html", "Camera Mounting System for Aquaculure Monitoring Drone", '_blank');
+  let ac_button = createA("gimbal.html", "Camera Mounting System for Aquaculture Monitoring Drone", '_blank');
   ac_button.parent('p5-button');
   ac_button.class('button-link');
   ac_button.position(0, 0, 'relative');
